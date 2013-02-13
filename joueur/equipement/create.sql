@@ -13,17 +13,17 @@ CREATE TABLE IF NOT EXISTS `Objet`
 	poids int(3) NOT NULL,
 	encombrement int(3) NOT NULL,
 
-	FOREIGN KEY (type) REFERENCES TypeObjet(nom)
+	FOREIGN KEY (type) REFERENCES TypeObjet(nom),
 	CONSTRAINT poids CHECK (poids > 0),
 	CONSTRAINT encombrement CHECK (encombrement > 0)
 );
 
 CREATE TABLE IF NOT EXISTS `Equipement`
 (
-	id_perso int(11) NOT NULL,
-	objet int(11) NOT NULL,
+	personnage varchar(40) NOT NULL,
+	objet varchar(40) NOT NULL,
 
-	PRIMARY KEY id_equipement (id_perso, objet)
-	FOREIGN KEY (id_perso) REFERENCES Personnage(nom),
-	FOREIGN KEY (objet) REFERENCES Objet(nom),
+	PRIMARY KEY id_equipement (personnage, objet),
+	FOREIGN KEY (personnage) REFERENCES Personnage(nom),
+	FOREIGN KEY (objet) REFERENCES Objet(nom)
 );

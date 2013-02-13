@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `PartieCorps`
 (
 	nom varchar(40) PRIMARY KEY,	
-	taille varchar(40)
+	taille ENUM('Petite', 'Moyenne', 'Grande')
 );
 
 
@@ -24,6 +24,5 @@ CREATE TABLE IF NOT EXISTS `Personnage`
 (	
 	nom varchar(40) PRIMARY KEY,
 	race varchar(40),
-	taille varchar(40)
-
+	taille ENUM('Petite', 'Moyenne', 'Grande')
 );
