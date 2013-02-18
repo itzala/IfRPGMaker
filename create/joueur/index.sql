@@ -1,17 +1,14 @@
-DROP DATABASE IF EXISTS `IfRPGMaker`;
-CREATE DATABASE IF NOT EXISTS `IfRPGMaker`;	
-
-USE `IfRPGMaker`;
-
 # Ordre de création
 # Etape 1
-#	PartieCorps, Race, Métier/Rôle, Joueur, TypeCaract, TypeXp, 
+#	PartieCorps, Race, Métier, Joueur, TypeCaract, TypeXp, 
 # Etape 2
 #	TypeObjet, CorpsRace, MetierRace, Caractéristiques, Personnage, Xp, 
 # Etape 3
 #	Objet, Compétences, Save, CaractPerso, CaractRace
 # Etape 4
 #	Equipement
+
+
 
 SOURCE ./joueur/personnage/create.sql;
 SOURCE ./joueur/equipement/create.sql;

@@ -1,5 +1,7 @@
 #
-#		Création des tables => la base doit exister et être vide
+# On reset selon le choix de l'utilisateur
+# 		1) Le content
+#		2) Les tables 
 #
 
 SOURCE ./joueur/index.sql
