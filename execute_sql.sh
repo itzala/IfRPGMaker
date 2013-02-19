@@ -18,7 +18,7 @@ USERPASS="'$3'"
 EDITOR_USER="'$4'"
 HOST="'$5'"
 ' > ${PATH_CONFIG};
-chmod 700 ${PATH_CONFIG};
+chmod 600 ${PATH_CONFIG};
 }
 
 create_config()
@@ -27,8 +27,10 @@ create_config()
 	echo "Merci de répondre aux quatres questions suivantes : ";
 	read -p "Le nom de la base : " dbname;
 	read -p "Votre nom d'utilisateur : " username;
-	read -p "Votre mot de passe : " userpass;
-	read -p "Le nom de votre serveur de données : " host;
+	echo -n "Votre mot de passe : "
+	read -s  userpass;	
+	read -p "
+Le nom de votre serveur de données : " host;
 	read -p "L'éditeur à utiliser pour éditer les fichiers : " editeur;
 	write_config $dbname $username $userpass $editeur $host;
 }
@@ -106,7 +108,7 @@ modifier_config()
 }
 
 # fonction main :)
-
+clear;
 if [ ! -f ${PATH_CONFIG} ]
 then
 	echo -n "Le programme a besoin d'un fichier de configuration qu'il ne peut trouver dans "; 
@@ -114,8 +116,9 @@ then
 	create_config ;
 	ls -l ${PATH_CONFIG};	
 fi
+clear;
 source ${PATH_CONFIG}
-echo "La config a bien été trouvée ! ";	
+echo "La config a bien été récupérée! ";	
 MYSQL_EXEC="mysql -h $HOST -u $USERNAME -p$USERPASS $DBNAME ";
 case $# in
 	0)			
