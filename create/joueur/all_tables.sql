@@ -9,8 +9,13 @@
 #	Equipement
 
 
-SOURCE ./create/joueur/personnage/create.sql;
-SOURCE ./create/joueur/equipement/create.sql;
-SOURCE ./create/joueur/savoir/create.sql;
-SOURCE ./create/joueur/capacite/create.sql;
-SOURCE ./create/joueur/create.sql;
+SOURCE ./all_tables/joueur/personnage/all_tables.sql;
+SOURCE ./all_tables/joueur/equipement/all_tables.sql;
+SOURCE ./all_tables/joueur/savoir/all_tables.sql;
+SOURCE ./all_tables/joueur/capacite/all_tables.sql;
+SOURCE ./all_tables/joueur/all_tables.sql;
+CREATE TABLE IF NOT EXISTS `Joueur`
+(
+	pseudo varchar(40) PRIMARY KEY,
+	mdp varchar(40) NOT NULL
+);
