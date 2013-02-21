@@ -1,8 +1,0 @@
-CREATE TABLE IF NOT EXISTS `Choix`
-(
-	id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	evenement NOT NULL,
-	choix_parent int(11) NOT NULL,
-
-	FOREIGN KEY (choix_parent) REFERENCES Choix(id) ON DELETE CASCADE ON UPDATE CASCADE	
-);

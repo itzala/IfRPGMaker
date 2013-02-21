@@ -1,9 +1,0 @@
-CREATE TABLE IF NOT EXISTS `Scenario`
-(
-	debut int(11) NOT NULL,
-	contrainte int(11) NOT NULL,
-
-	PRIMARY KEY (debut, contrainte),
-	FOREIGN KEY (debut) REFERENCES Choix(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (contrainte) REFERENCES Contrainte(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
