@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `Histoire`
 
 	PRIMARY KEY (auteur, titre),
 	FOREIGN KEY (intro, description) REFERENCES Evenement(intro, description) ON DELETE CASCADE ON UPDATE CASCADE
-);
+) ENGINE = INNODB;
 
 SOURCE ./create/histoire/choix/all_tables.sql
 SOURCE ./create/histoire/scenario/all_tables.sql

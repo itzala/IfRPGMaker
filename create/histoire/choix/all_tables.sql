@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS `Choix`
 	FOREIGN KEY (choix_parent) REFERENCES Choix(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (intro, description) REFERENCES Evenement(intro, description) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (auteur, titre) REFERENCES Histoire(auteur, titre)
-);
+) ENGINE = INNODB;

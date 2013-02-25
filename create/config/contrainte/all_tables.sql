@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `Contrainte`
 
 	FOREIGN KEY (auteur, titre) REFERENCES Histoire(auteur, titre) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (pseudo) REFERENCES Joueur(pseudo) ON DELETE CASCADE ON UPDATE CASCADE
-);
+) ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS `ObjetContrainte`
 (
@@ -15,4 +15,4 @@ CREATE TABLE IF NOT EXISTS `ObjetContrainte`
 	id_contrainte int(11),
 
 	FOREIGN KEY (id_contrainte) REFERENCES Contrainte(id_contrainte) ON DELETE CASCADE ON UPDATE CASCADE,
-);
+) ENGINE = INNODB;
