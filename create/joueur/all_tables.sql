@@ -9,11 +9,11 @@
 #	Equipement
 
 
-SOURCE ./all_tables/joueur/personnage/all_tables.sql;
-SOURCE ./all_tables/joueur/equipement/all_tables.sql;
-SOURCE ./all_tables/joueur/savoir/all_tables.sql;
-SOURCE ./all_tables/joueur/capacite/all_tables.sql;
-SOURCE ./all_tables/joueur/all_tables.sql;
+SOURCE ./create/joueur/personnage/all_tables.sql;
+SOURCE ./create/joueur/equipement/all_tables.sql;
+SOURCE ./create/joueur/savoir/all_tables.sql;
+SOURCE ./create/joueur/capacite/all_tables.sql;
+SOURCE ./create/joueur/all_tables.sql;
 
 CREATE TABLE IF NOT EXISTS `Joueur`
 (

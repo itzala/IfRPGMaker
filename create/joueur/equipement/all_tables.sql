@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `TypeObjet`
 	nom varchar(40) PRIMARY KEY,
 	partie_corps varchar(40) NOT NULL,
 
-	FOREIGN KEY (partie_corps) REFERENCES PartieCorps(nom)
+	FOREIGN KEY (partie_corps) REFERENCES PartieCorps(nom) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS `Objet`
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `Objet`
 	poids int(3) NOT NULL,
 	encombrement int(3) NOT NULL,
 
-	FOREIGN KEY (type) REFERENCES TypeObjet(nom),
+	FOREIGN KEY (type) REFERENCES TypeObjet(nom) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT poids CHECK (poids > 0),
 	CONSTRAINT encombrement CHECK (encombrement > 0)
 );
@@ -24,6 +24,6 @@ CREATE TABLE IF NOT EXISTS `Equipement`
 	objet varchar(40) NOT NULL,
 
 	PRIMARY KEY id_equipement (personnage, objet),
-	FOREIGN KEY (personnage) REFERENCES Personnage(nom),
-	FOREIGN KEY (objet) REFERENCES Objet(nom)
+	FOREIGN KEY (personnage) REFERENCES Personnage(nom) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (objet) REFERENCES Objet(nom) ON DELETE CASCADE ON UPDATE CASCADE
 );

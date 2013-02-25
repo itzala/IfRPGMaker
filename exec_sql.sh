@@ -101,8 +101,8 @@ create_arbo()
 		cp -r ./create/* ./$1;
 		echo -n " Done
 Mise à jour des chemins dans les fichiers sql....";
-		sed -i "s/create/$1/g" $1/*/all*.sql;		
 		sed -i "s/create/$1/g" $1/all*.sql;
+		sed -i "s/create/$1/g" $1/*/all*.sql;		
 		echo -n " Done
 Suppression des commandes create dans pour chaque thème......."
 		sed -i "/SOURCE/!d" $1/*/all_tables.sql;
@@ -157,7 +157,8 @@ exec_action_all()
 {
 	if [ -d ./$1 ]
 	then
-
+		echo "Vous voulez executer l'action '$1' pour tous les thèmes. 
+		Fonctionnalité à venir";
 	else
 		usage "Action inconnue. Faites $EXEC help pour obtenir la liste des actions reconnues";
 	fi
