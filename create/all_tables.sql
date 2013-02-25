@@ -1,5 +1,5 @@
-SOURCE ./create/joueur/index.sql;
-#SOURCE ./create/histoire/index.sql;
-#SOURCE ./create/actions/index.sql;
-#SOURCE ./create/dialogues/index.sql;
-#SOURCE ./create/config/index.sql;
+SOURCE ./create/joueur/all_tables.sql;
+SOURCE ./create/histoire/all_tables.sql;
+#SOURCE ./create/actions/all_tables.sql;
+#SOURCE ./create/dialogues/all_tables.sql;
+#SOURCE ./create/config/all_tables.sql;

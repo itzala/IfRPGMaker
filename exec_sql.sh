@@ -3,7 +3,7 @@
 # variables globales xD
 
 DEFAULT="A REMPLACER PAR VOTRE CONFIGURATION LOCALE";
-PATH_CONFIG="../config.sh";
+PATH_CONFIG="../config_ifrpgmaker.sh";
 EXEC="./exec_sql.sh";
 MYSQL_EXEC="";
 ARBO=$(ls --ignore=*.* ./create);
@@ -33,7 +33,7 @@ create_config()
 	read -s  userpass;						
 	read -p "
 Le nom de votre serveur de données : " host;
-	read -p "L'éditeur à utiliser pour éditer les fichiers : " editeur;
+	read -p "L'éditeur à utiliser pour éditer les fichiers (vérifier votre PATH) : " editeur;
 	write_config $dbname $username $userpass $editeur $host;
 }
 
@@ -82,7 +82,9 @@ create_theme()
 		if [ ! -d $1"/"$2  ]
 		then
 			echo -n "Création du thème '$2' pour l'action '$1'......";
-			mkdir -p $1"/"$2;
+			chemin=$1/$2;
+			mkdir -p $chemin;
+			touch $chemin/all.sql $chemin/all_tables.sql $chemin/all_contenu.sql;			
 			echo " Done";
 		else
 			usage "Le thème '$2' pour l'action '$1' existe déjà.";
@@ -143,7 +145,7 @@ exec_sql()
 				$MYSQL_EXEC < $fic
 				echo " Done";
 			else
-				usage "Pour le thème '$2' de l'action '$1', une modification de '$fic' n'est pas possible";
+				usage "Pour le thème '$2' de l'action '$1', une modification de '$3' n'est pas possible";
 			fi
 		else
 			usage "Thème inconnu. Faite $EXEC help pour obtenir la liste des thèmes reconnus";

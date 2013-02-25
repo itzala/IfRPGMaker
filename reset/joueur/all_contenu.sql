@@ -4,12 +4,10 @@ SET foreign_key_checks = 0;
 # On vide toutes les tables
 
 TRUNCATE TABLE `Classe`;
-TRUNCATE TABLE `ClasseRace`;
-TRUNCATE TABLE `MetierRace`;
 TRUNCATE TABLE `Metier`;
 TRUNCATE TABLE `PartieCorps`;
-TRUNCATE TABLE `MetierClasse`;
-TRUNCATE TABLE `CorpsRace`;
+TRUNCATE TABLE `Caracteristique`;
+TRUNCATE TABLE `CaractPerso`;
 TRUNCATE TABLE `Race`;
 TRUNCATE TABLE `Objet`;
 TRUNCATE TABLE `Equipement`;
