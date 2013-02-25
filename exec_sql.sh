@@ -2,10 +2,11 @@
 
 # variables globales xD
 
-DEFAULT="A REMPLACER PAR VOTRE CONFIGURATION LOCALE"
-PATH_CONFIG="config.sh"
-EXEC="./exec_sql.sh"
-MYSQL_EXEC=""
+DEFAULT="A REMPLACER PAR VOTRE CONFIGURATION LOCALE";
+PATH_CONFIG="../config.sh";
+EXEC="./exec_sql.sh";
+MYSQL_EXEC="";
+ARBO=$(ls --ignore=*.* ./create);
 
 # fonctions internes mais très utiles ;)
 
@@ -42,6 +43,17 @@ usage()
 	exit;
 }
 
+liste_themes()
+{
+	echo $ARBO;
+}
+
+liste_actions()
+{
+	ls --ignore=*.*;
+}
+
+
 help_prog()
 {
 	echo -n "
@@ -51,11 +63,13 @@ Ce programme a été écrit pour vous éviter de vous souvenir quelle est l'arbo
 
 Action :
 	";
-	ls --ignore=*.*;
+	liste_actions;
 	echo -n "
+Vous pouvez également faire $EXEC add [Action] pour créer une action et générer l'arborescence des thèmes automatiquement.
+
 Chemin du thème :
 	";
-	ls --ignore=*.* ./create; 
+	liste_themes;
 	echo "
 Cible :
 	contenu  tables";
@@ -76,6 +90,42 @@ create_theme()
 	else
 		usage "L'action '$1' n'existe pas et vous ne pouvez pas en créer de nouvelles. Faites $EXEC pour obtenir
 		la liste des actions reconnues";
+	fi
+}
+
+create_arbo()
+{
+	if [ -d $1 ]
+	then		
+		echo -n "Copie de l'arborescence depuis l'action 'create'......";
+		cp -r ./create/* ./$1;
+		echo -n " Done
+Mise à jour des chemins dans les fichiers sql....";
+		sed -i "s/create/$1/g" $1/*/all*.sql;		
+		sed -i "s/create/$1/g" $1/all*.sql;
+		echo -n " Done
+Suppression des commandes create dans pour chaque thème......."
+		sed -i "/SOURCE/!d" $1/*/all_tables.sql;
+		echo -n " Done
+Suppression du contenu des fichiers sql pour les sous-themes......";
+		for f in $(ls delete/*/*/*.sql)
+		do
+			echo "" > $f;
+		done
+		echo " Done";
+	else
+		usage "Vous devez d'abord créer l'action '$1' avant de pouvoir créer l'arborescence des thèmes.";
+	fi
+}
+
+create_action()
+{
+	if [ ! -d $1 ]
+	then
+		mkdir ./$1;
+		create_arbo $1
+	else
+		usage "L'action '$1' existe déjà";
 	fi
 }
 
@@ -100,6 +150,16 @@ exec_sql()
 		fi
 	else
 		usage "Action inconnue. Faite $EXEC help pour obtenir la liste des actions reconnues";
+	fi
+}
+
+exec_action_all()
+{
+	if [ -d ./$1 ]
+	then
+
+	else
+		usage "Action inconnue. Faites $EXEC help pour obtenir la liste des actions reconnues";
 	fi
 }
 
@@ -141,9 +201,24 @@ case $# in
 			;;
 		esac			
 		;;
-	2)		
-		echo "Vous avez souhaité créer le thème '$2' pour l'action '$1'";
-		create_theme $1 $2
+	2)	
+		case $1 in
+			"add")
+				echo "Vous souhaitez créer l'action '$2'"
+				create_action $2
+			;;
+			*)
+				case $2 in
+					"all")
+						echo "Vous ";
+					;;
+					*)
+						echo "Vous souhaitez créer le thème '$2' pour l'action '$1'";
+						create_theme $1 $2
+					;;
+				esac
+			;;
+		esac
 		;;
 	3)
 		case $3 in
