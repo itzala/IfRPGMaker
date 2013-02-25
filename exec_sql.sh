@@ -48,31 +48,98 @@ liste_themes()
 	echo $ARBO;
 }
 
+liste_sous_themes()
+{
+	for s_themes in $ARBO
+	do
+		echo -n "
+
+	$s_themes : ";
+	#ls --ignore=*.* create/$s_themes;
+
+		fic=$(ls --ignore=*.* create/$s_themes);
+
+		for f in $fic
+		do
+			echo -n "
+		$f";
+		done		
+	done
+	echo "";
+}
+
 liste_actions()
 {
-	ls --ignore=*.*;
+	fic=$(ls --ignore=*.* --ignore=fixtures);
+
+	for f in $fic
+	do
+		echo -n "$f
+	";
+	done
 }
 
 
 help_prog()
 {
-	echo -n "
-Bienvenue dans l'aide.
-Ce programme a été écrit pour vous éviter de vous souvenir quelle est l'arborescence des fichiers du projet.
-[Usage] : $EXEC [Action] [Chemin du thème] [Cible de l'action]
+	SEPARATOR="--------------------------------------------------------------------------------";
 
-Action :
+	echo -n "Bonjour et bienvenue dans l'aide de ce joli script.
+$SEPARATOR
+  Il a été écrit afin de vous simplifier la vie lorsque vous souhaitez exécuter
+des instructions sql à la pelle.
+$SEPARATOR
+
+Voici comment qu'il faut l'utiliser :
+
+Usage : \$$EXEC  [Action] [Chemin du thème] [Cible]
+
+$SEPARATOR
+
+Action : 
 	";
+	
 	liste_actions;
-	echo -n "
-Vous pouvez également faire $EXEC add [Action] pour créer une action et générer l'arborescence des thèmes automatiquement.
 
-Chemin du thème :
-	";
-	liste_themes;
+	echo -n "
+$SEPARATOR
+
+Chemin du thème : ";
+
+	liste_sous_themes;
+
 	echo "
+$SEPARATOR
+
+N.B :  Pour accéder à un sous thème, il suffira de faire [Thème]/[Sous thème]
+comme ceci => \$$EXEC  create histoire/choix [cible]
+
+$SEPARATOR
+
 Cible :
-	contenu  tables";
+	contenu
+	tables
+	all
+
+$SEPARATOR
+
+Vous pouvez également faire : 
+\$$EXEC 
+
+	add [Action] : pour créer une action avec son arborescence basée sur 
+				   celle de l'action create
+			Exemple : \$$EXEC  add revert
+
+	config : pour afficher votre fichier de configuration avec l'éditeur 
+			sélectionné au départ et ainsi la modifier.
+
+	help : pour afficher cette aide
+
+$SEPARATOR
+
+copyright : Oruezabal Baptiste - Tous droits réservés
+
+";
 }
 
 create_theme()
@@ -84,7 +151,7 @@ create_theme()
 			echo -n "Création du thème '$2' pour l'action '$1'......";
 			chemin=$1/$2;
 			mkdir -p $chemin;
-			touch $chemin/all.sql $chemin/all_tables.sql $chemin/all_contenu.sql;			
+			touch chemin/all_tables.sql $chemin/all_contenu.sql $chemin/all.sql;
 			echo " Done";
 		else
 			usage "Le thème '$2' pour l'action '$1' existe déjà.";
@@ -125,7 +192,7 @@ create_action()
 	if [ ! -d $1 ]
 	then
 		mkdir ./$1;
-		create_arbo $1
+		create_arbo $1;
 	else
 		usage "L'action '$1' existe déjà";
 	fi
@@ -142,7 +209,7 @@ exec_sql()
 			if [ -f $fic ]
 			then
 				echo -n "Exécution de la commande........ ";
-				$MYSQL_EXEC < $fic
+				$MYSQL_EXEC < $fic;
 				echo " Done";
 			else
 				usage "Pour le thème '$2' de l'action '$1', une modification de '$3' n'est pas possible";
@@ -158,11 +225,18 @@ exec_sql()
 exec_action_all()
 {
 	if [ -d ./$1 ]
-	then
-		echo "Vous voulez executer l'action '$1' pour tous les thèmes. 
-		Fonctionnalité à venir";
+	then		
+		fic=$1"/all.sql";
+		if [ -f $fic ]
+		then
+			echo -n "Execution de la commande..... ";
+			$MYSQL_EXEC < $fic;
+			echo "Done";
+		else
+			usage "L'exécution de '$1' ne peut pas être effectuée globalement";
+		fi
 	else
-		usage "Action inconnue. Faites $EXEC help pour obtenir la liste des actions reconnues";
+		usage "Action inconnue : '$1'. Faites $EXEC help pour obtenir la liste des actions reconnues";
 	fi
 }
 
@@ -179,10 +253,9 @@ then
 	echo -n "Le programme a besoin d'un fichier de configuration qu'il ne peut trouver dans "; 
 	pwd;
 	create_config ;
-	ls -l ${PATH_CONFIG};	
+	clear;
 fi
-clear;
-source ${PATH_CONFIG}
+source ${PATH_CONFIG};
 echo "La config a bien été récupérée! ";
 # On est sûr que la configuration est renseignée, on met donc à jour la ligne de commande d'exécution du fichier mysql
 MYSQL_EXEC="mysql -h $HOST -u $USERNAME -p$USERPASS $DBNAME ";
@@ -208,16 +281,16 @@ case $# in
 		case $1 in
 			"add")
 				echo "Vous souhaitez créer l'action '$2'"
-				create_action $2
+				create_action $2;
 			;;
 			*)
 				case $2 in
 					"all")
-						echo "Vous ";
+						exec_action_all $1;
 					;;
 					*)
 						echo "Vous souhaitez créer le thème '$2' pour l'action '$1'";
-						create_theme $1 $2
+						create_theme $1 $2;
 					;;
 				esac
 			;;
@@ -230,7 +303,10 @@ case $# in
 			;;
 			"tables")
 				exec_sql $1 $2 $3;
-			;;		
+			;;
+			"all")
+				echo "Merci de bien vouloir patienter car je bois du code :)";
+			;;
 			*)
 				usage "Vous devez choisir d'agir sur le contenu ou sur les tables";
 			;;
