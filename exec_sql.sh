@@ -172,15 +172,15 @@ create_arbo()
 		echo -n "Copie de l'arborescence depuis l'action 'create'......";
 		cp -r ./create/* ./$1;
 		echo -n " Done
-Mise à jour des chemins dans les fichiers sql....";
-		sed -i "s/create/$1/g" $1/all*.sql;
+Mise à jour des chemins dans les fichiers sql....";		
 		sed -i "s/create/$1/g" $1/*/all*.sql;		
+		sed -i "s/create/$1/g" $1/all*.sql;
 		echo -n " Done
 Suppression des commandes create dans pour chaque thème......."
 		sed -i "/SOURCE/!d" $1/*/all_tables.sql;
 		echo -n " Done
 Suppression du contenu des fichiers sql pour les sous-themes......";
-		for f in $(ls delete/*/*/*.sql)
+		for f in $(ls $1/*/*/*.sql)
 		do
 			echo "" > $f;
 		done
@@ -245,12 +245,26 @@ exec_action_all()
 
 load_fixtures()
 {
-	chemin="./fixtures/"$1
-	if [ -d $chemin ]
+
+	if [ -d ./fixtures ]
 	then
-		echo "Vous désirez charger les fixtures pour le thème '$1'. Merci de patienter encore un peu";
+		chemin="./fixtures/"$1;
+		if [ -d $chemin ]
+		then
+			fic=$chemin/all_tables.sql;
+			if [ -f $fic ]
+			then
+				echo -n "Chargement des données d'exemple......";
+				$MYSQL_EXEC --local=1 < $fic;
+				echo "Done";
+			else
+				usage "Vous devez définir $fic";
+			fi
+		else
+			usage "Le thème '$1' doit exister !";
+		fi
 	else
-		usage "Le thème '$1' doit exister !";
+		usage "Vous devez créer un dossier 'fixtures' !";
 	fi
 }
 
@@ -289,6 +303,7 @@ case $# in
 				modifier_config;
 			;;			
 			*)
+				echo "Action non reconnue.";
 				usage "[Usage] : $EXEC help pour afficher l'aide ou $EXEC config pour modifier votre configuration";
 			;;
 		esac			
