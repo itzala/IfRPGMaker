@@ -127,13 +127,16 @@ Vous pouvez également faire :
 \$$EXEC 
 
 	add [Action] : pour créer une action avec son arborescence basée sur 
-				   celle de l'action create
+				 celle de l'action create
 			Exemple : \$$EXEC  add revert
 
 	config : pour afficher votre fichier de configuration avec l'éditeur 
 			sélectionné au départ et ainsi la modifier.
 
 	help : pour afficher cette aide
+
+	fixtures [Chemin du thème] : pour charger les données d'exemple pour 
+				    le thème sélectionné
 
 $SEPARATOR
 
@@ -240,6 +243,18 @@ exec_action_all()
 	fi
 }
 
+load_fixtures()
+{
+	chemin="./fixtures/"$1
+	if [ -d $chemin ]
+	then
+		echo "Vous désirez charger les fixtures pour le thème '$1'. Merci de patienter encore un peu";
+	else
+		usage "Le thème '$1' doit exister !";
+	fi
+}
+
+
 # Permet de modifier le fichier de configuration de l'utilisateur en cas de fausse manipulation
 modifier_config()
 {
@@ -259,6 +274,7 @@ source ${PATH_CONFIG};
 echo "La config a bien été récupérée! ";
 # On est sûr que la configuration est renseignée, on met donc à jour la ligne de commande d'exécution du fichier mysql
 MYSQL_EXEC="mysql -h $HOST -u $USERNAME -p$USERPASS $DBNAME ";
+
 case $# in
 	0)			
 		usage "[Usage] : $EXEC nécessite au moins un argument pour afficher l'aide et au moins deux arguments pour fonctionner";
@@ -282,6 +298,9 @@ case $# in
 			"add")
 				echo "Vous souhaitez créer l'action '$2'"
 				create_action $2;
+			;;
+			"fixtures")
+				load_fixtures $2;
 			;;
 			*)
 				case $2 in
