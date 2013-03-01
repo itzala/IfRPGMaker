@@ -1,0 +1,15 @@
+{[ action ]}
+admin.enter_room
+admin.open_door
+admin.close_door
+admin.go_through_door
+admin.open_window
+admin.close_window
+admin.go_through_window
+admin.go_south
+admin.go_north
+admin.go_east
+admin.go_west
+admin.climb_ladder
+admin.climb_wall
+admin.read_book
