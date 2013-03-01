@@ -154,7 +154,7 @@ create_theme()
 			echo -n "Création du thème '$2' pour l'action '$1'......";
 			chemin=$1/$2;
 			mkdir -p $chemin;
-			touch chemin/all_tables.sql $chemin/all_contenu.sql $chemin/all.sql;
+			touch $chemin/all_tables.sql $chemin/all_contenu.sql $chemin/all.sql;
 			echo " Done";
 		else
 			usage "Le thème '$2' pour l'action '$1' existe déjà.";
