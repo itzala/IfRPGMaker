@@ -19,3 +19,5 @@ CREATE TABLE IF NOT EXISTS `Dictionnaire`
 
 	PRIMARY KEY (keyword, synonym);
 ) ENGINE = INNODB;
+
+SOURCE ./all_contenu.sql;
