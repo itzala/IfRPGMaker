@@ -1,0 +1,5 @@
+LOAD DATA LOCAL INFILE '../../fixtures/actions/actions.csv'
+INTO TABLE Actions
+FIELDS TERMINATED BY ';'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES
