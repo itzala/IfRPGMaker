@@ -9,8 +9,12 @@ CREATE TABLE IF NOT EXISTS `Choix`
 	
 	auteur varchar(40) NOT NULL,
 	titre varchar(40) NOT NULL,
+	
+	contrainte int(11),
+
 
 	FOREIGN KEY (choix_parent) REFERENCES Choix(id) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (intro, description) REFERENCES Evenement(intro, description) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY (auteur, titre) REFERENCES Histoire(auteur, titre)
+	FOREIGN KEY (contrainte) REFERENCES ElementContrainte(id_element) ON DELETE CASCADE ON UPDATE CASCADE,
 ) ENGINE = INNODB;
