@@ -135,9 +135,6 @@ Vous pouvez également faire :
 
 	help : pour afficher cette aide
 
-	fixtures [Chemin du thème] : pour charger les données d'exemple pour 
-				    le thème sélectionné
-
 $SEPARATOR
 
 copyright : Oruezabal Baptiste - Tous droits réservés
@@ -212,7 +209,12 @@ exec_sql()
 			if [ -f $fic ]
 			then
 				echo -n "Exécution de la commande........ ";
-				$MYSQL_EXEC < $fic;
+				if [ $3 = "contenu" ]
+				then
+					$MYSQL_EXEC < $fic;
+				else
+					$MYSQL_EXEC --local=1 < $fic;
+				fi
 				echo " Done";
 			else
 				usage "Pour le thème '$2' de l'action '$1', une modification de '$3' n'est pas possible";
@@ -232,8 +234,8 @@ exec_action_all()
 		fic=$1"/all.sql";
 		if [ -f $fic ]
 		then
-			echo -n "Execution de la commande..... ";
-			$MYSQL_EXEC < $fic;
+			echo -n "Execution de la commande..... ";			
+			$MYSQL_EXEC < $fic;		
 			echo "Done";
 		else
 			usage "L'exécution de '$1' ne peut pas être effectuée globalement";
@@ -242,32 +244,6 @@ exec_action_all()
 		usage "Action inconnue : '$1'. Faites $EXEC help pour obtenir la liste des actions reconnues";
 	fi
 }
-
-load_fixtures()
-{
-
-	if [ -d ./fixtures ]
-	then
-		chemin="./fixtures/"$1;
-		if [ -d $chemin ]
-		then
-			fic=$chemin/all_tables.sql;
-			if [ -f $fic ]
-			then
-				echo -n "Chargement des données d'exemple......";
-				$MYSQL_EXEC --local=1 < $fic;
-				echo "Done";
-			else
-				usage "Vous devez définir $fic";
-			fi
-		else
-			usage "Le thème '$1' doit exister !";
-		fi
-	else
-		usage "Vous devez créer un dossier 'fixtures' !";
-	fi
-}
-
 
 # Permet de modifier le fichier de configuration de l'utilisateur en cas de fausse manipulation
 modifier_config()
@@ -313,10 +289,7 @@ case $# in
 			"add")
 				echo "Vous souhaitez créer l'action '$2'"
 				create_action $2;
-			;;
-			"fixtures")
-				load_fixtures $2;
-			;;
+			;;			
 			*)
 				case $2 in
 					"all")

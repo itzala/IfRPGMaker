@@ -1,0 +1,1 @@
+LOAD DATA LOCAL INFILE "./fixtures/joueur/base.csv" INTO TABLE `Joueur`;

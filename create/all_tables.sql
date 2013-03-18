@@ -1,9 +1,8 @@
 CREATE TABLE IF NOT EXISTS `ElementContrainte`
 (
-	id_element int(11) PRIMARY KEY,
+	id_element int(11) PRIMARY KEY
 
 ) ENGINE = INNODB;
-
 
 SOURCE ./create/joueur/all_tables.sql;
 SOURCE ./create/systeme_jeu/all_tables.sql;
