@@ -9,14 +9,13 @@ CREATE TABLE IF NOT EXISTS `Histoire`
 	date_creation date,
 	date_modification date,
 	
-	intro int(11) NOT NULL,
 	description int(11) NOT NULL,
 
 	contrainte int(11),
 
 	PRIMARY KEY (auteur, titre),
 	FOREIGN KEY (contrainte) REFERENCES ElementContrainte(id_element) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (intro, description) REFERENCES Evenement(intro, description) ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY (description) REFERENCES Description(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = INNODB;
 
 SOURCE ./create/histoire/choix/all_tables.sql
