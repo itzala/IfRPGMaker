@@ -1,9 +1,12 @@
-CREATE TABLE IF NOT EXISTS `Embrayage`
+CREATE TABLE IF NOT EXISTS `ActiDico`
 (
 	keyword varchar(40) NOT NULL,
 	action varchar(40) NOT NULL,
 
 	PRIMARY KEY (keyword, actiontext);
+	
+	FOREIGN KEY keyword REFERENCES Dictionnaire(keyword)ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY action REFERENCES Actions(action) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = INNODB;
 
 CREATE TABLE IF NOT EXISTS `Actions`

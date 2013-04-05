@@ -1,0 +1,5 @@
+{[ mot-cle ] [ action ]}
+door; admin.open_door
+door; admin.close_door
+window; admin.open_window
+window; admin.close_window

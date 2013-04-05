@@ -2,4 +2,16 @@ LOAD DATA LOCAL INFILE '../../fixtures/actions/actions.csv'
 INTO TABLE Actions
 FIELDS TERMINATED BY ';'
 LINES TERMINATED BY '\n'
-IGNORE 1 LINES
+IGNORE 1 LINES;
+
+LOAD DATA LOCAL INFILE '../../fixtures/actions/dictionnaire.csv'
+INTO TABLE Dictionnaire
+FIELDS TERMINATED BY ';'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES;
+
+LOAD DATA LOCAL INFILE '../../fixtures/actions/actidico.csv'
+INTO TABLE Embrayage
+FIELDS TERMINATED BY ';'
+LINES TERMINATED BY '\n'
+IGNORE 1 LINES;
