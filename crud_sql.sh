@@ -17,8 +17,7 @@ getNextParam()
 		chaine=$1;
 	else
 		out=$(cat ${FIC_TMP})
-		chaine=$(echo ${out:$2})
-		echo "${chaine}";
+		chaine=$(echo ${out:$2 - 1})
 	fi	
 
 	pos_debut=$(expr index "$chaine" ${PARAM});
@@ -27,21 +26,17 @@ getNextParam()
 	if [ ${pos_fin} -gt 0 ]
 	then
 		param=${chaine:${pos_debut}:${pos_fin} -1};
-		echo "ATTENTION : Pour des raisons de sécurité, le caractère '%' ne peut pas être utilisé !";
+		echo "ATTENTION : Merci de ne pas utiliser les caractères \". Utilisez plutôt le caractère ' deux fois";
 		echo -n "Le paramètre" ${param} "doit être défini. Veuillez indiquer sa valeur : ";
-		read val_arg;
-		let "pos_fin=${pos_debut}+${pos_fin}";
-		echo "pos_fin=${pos_debut}+${pos_fin} = ${pos_fin} ";		
+		read val_arg;		
+		let "pos_fin=${pos_debut} + ${#val_arg} + 1";
 		sed -i "s/%${param}%/${val_arg}/g" ${FIC_TMP};
 		out=$(cat ${FIC_TMP});
-		let "pos_max=${#out} - 1";		
-		echo "Caractère à la position max ${pos_max} :" ${out:${pos_max}};
-		echo "La position du début de la nouvelle recherche est inférieure à la position max ?
-${pos_fin} < ${pos_max} ?";
-		
+		let "pos_max=${#out} - 1";
+
 		if [ ${pos_fin} -lt ${pos_max} ]
-		then
-			getNextParam $chaine $pos_fin
+		then		
+			getNextParam "${chaine}" ${pos_fin};
 		else
 			$MYSQL_EXEC < ${FIC_TMP};
 		fi
@@ -50,50 +45,50 @@ ${pos_fin} < ${pos_max} ?";
 
 main()
 {
-# 	SEPARATOR="---------------------------------------------------------------";
+	SEPARATOR="---------------------------------------------------------------";
 
-# 	read -p "
-# ${SEPARATOR}
-# 		Voici ce qu'il est possible de faire.
-# ${SEPARATOR}
-# Créer 			(insert)
-# Afficher 		(select)
-# Mettre à jour   	(update)
-# Supprimer 		(delete)
-# ${SEPARATOR}
-# Quitter 		(quit)
-# ${SEPARATOR}
+	read -p "
+${SEPARATOR}
+		Voici ce qu'il est possible de faire.
+${SEPARATOR}
+Créer 			(insert)
+Afficher 		(select)
+Mettre à jour   	(update)
+Supprimer 		(delete)
+${SEPARATOR}
+Quitter 		(quit)
+${SEPARATOR}
 
-# Que voulez vous faire (écrire la commande sql en minuscule)?
-# Action : " action;
+Que voulez vous faire (écrire la commande sql en minuscule)?
+Action : " action;
 
-# if [ $action == "quit" ]
-# then
-# 	exit
-# fi
+if [ $action == "quit" ]
+then
+	exit
+fi
 
-# echo "
-# ${SEPARATOR}
-# Voici la liste des tables triées par module qui sont disponibles.
-# "
+echo "
+${SEPARATOR}
+Voici la liste des tables triées par module qui sont disponibles.
+"
 
-# cat index_tables.txt;
+cat index_tables.txt;
 
-# read -p "
-# ${SEPARATOR}
-# Indiquez le nom de la table sur laquelle vous voulez faire "${action}" selon le modèle suivant [module]:[Table]
+read -p "
+${SEPARATOR}
+Indiquez le nom de la table sur laquelle vous voulez faire "${action}" selon le modèle suivant [module]:[Table]
 
-# Exemple : joueur:Joueur 			pour la table Joueur
-# 		  systeme_jeu.Classe 		pour la table Classe
+Exemple : joueur:Joueur 			pour la table Joueur
+		  systeme_jeu.Classe 		pour la table Classe
 
-# Table : " module_table_name;
+Table : " module_table_name;
 
-# 	module=$(echo ${module_table_name} | cut -d":" -f1);
-# 	table=$(echo ${module_table_name} | cut -d":" -f2);
+	module=$(echo ${module_table_name} | cut -d":" -f1);
+	table=$(echo ${module_table_name} | cut -d":" -f2);
 
-	action="update"
-	module="histoire"
-	table="Intro"
+		action="update"
+		module="histoire"
+		table="Intro"
 	fic=${action}/${module}.sql;
 
 	if [ -f ${fic} ]
