@@ -14,8 +14,9 @@ CREATE TABLE IF NOT EXISTS `Histoire`
 	contrainte int(11),
 
 	PRIMARY KEY (auteur, titre),
+	FOREIGN KEY (auteur) REFERENCES Joueur(pseudo) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (description) REFERENCES Description(id) ON DELETE CASCADE ON UPDATE CASCADE
 	FOREIGN KEY (contrainte) REFERENCES ElementContrainte(id_element) ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY (auteur) REFERENCES Joueur(pseudo) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = INNODB;
 
 SOURCE ./create/histoire/choix/all_tables.sql
