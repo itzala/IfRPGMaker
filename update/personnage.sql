@@ -1,0 +1,1 @@
+UPDATE Personnage SET nom="%PARAMETER_NOM%" WHERE
