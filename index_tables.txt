@@ -1,0 +1,38 @@
+action:
+	ActiKey
+	Actions
+	Dictionnaire
+	Keywords
+
+contrainte:
+	Contrainte
+	ElementContrainte
+
+dialogues:
+	Dialogues
+
+histoire:
+	Histoire
+	Scenario
+	Intro
+	Description
+	Evenement
+	Choix
+
+joueur:
+	Joueur
+
+personnage:
+	Personnage
+	CaractPersoHistoire
+	EquipementPersoHistoire
+
+systeme_jeu:
+	SystemeJeu
+	Classe
+	Race
+	Metier
+	TypeObjet
+	Objet
+	PartiesCorps
+	Caracteristique
