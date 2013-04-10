@@ -15,3 +15,13 @@ CREATE TABLE IF NOT EXISTS `Intro`
 
 	FOREIGN KEY (contrainte) REFERENCES ElementContrainte(id_element)
 ) ENGINE = INNODB;
+
+CREATE TABLE IF NOT EXISTS `Evenement`
+(
+	intro int(11),
+	description int(11) NOT NULL,
+
+	PRIMARY KEY (intro, description),
+	FOREIGN KEY (contrainte) REFERENCES ElementContrainte(id_element)
+) ENGINE = INNODB;
+
