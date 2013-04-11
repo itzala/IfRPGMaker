@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `ActiKey`
 
 	PRIMARY KEY (keyword, actiontext);
 	
-	FOREIGN KEY keyword REFERENCES Keywords(keyword)ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY keyword REFERENCES Keywords(keyword) ON DELETE CASCADE ON UPDATE CASCADE
 	FOREIGN KEY action REFERENCES Actions(action) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = INNODB;
 
@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS `Dictionnaire`
 	keyword varchar(40) NOT NULL,
 	synonym varchar(40) NOT NULL,
 
-	FOREIGN KEY keyword REFERENCES Keywords(keyword)ON DELETE CASCADE ON UPDATE CASCADE
-	PRIMARY KEY (synonym);
+	FOREIGN KEY keyword REFERENCES Keywords(keyword) ON DELETE CASCADE ON UPDATE CASCADE
+	PRIMARY KEY (synonym, keyword);
 ) ENGINE = INNODB;
 
 SOURCE ./all_contenu.sql;

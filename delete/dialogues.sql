@@ -1,0 +1,1 @@
+DELETE FROM dialogue WHERE auteur="auteur", perso="perso", description="description" 
