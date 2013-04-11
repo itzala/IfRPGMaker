@@ -96,22 +96,49 @@ main()
 		clear;	
 		liste_commandes[0]=""
 		commande=$(grep "${action^^} ${table^}" ${fic});
-		nb_commandes=$(sed s/\;/\;\\n/g ${fic} | grep -c ";");
-		echo ${commande};
-		echo ${nb_commandes};
-		if [ "${commande}" == "" ]
+		#echo ${commande};		
+		if [ "${commande}" = "" ]
 		then
 			echo "Il n'y a aucune commande du type" ${action} "sql exécutable pour la table";
 		else
-			if [ ${nb_commandes} -gt 1 ]
-			then
-				echo "Il y a ${nb_commandes} disponibles";
-				cut "${commande}" -d";" -f1;
+			OLDIFS=${IFS}
+			IFS=';';
+			tab=( ${commande} );
+			nb_commandes=1;
+			liste_commandes[1]="";
+			i=0;
+			while [ $i -le ${#tab} ]
+			do				
+				if [ "${tab[$i]}" != "" ]
+				then								
+					echo "Indice de la prochaine commande ${nb_commandes}";
+					liste_commandes[${nb_commandes}]="${tab[$i]}";
+					echo "nouvelle commande : ${liste_commandes[${nb_commandes}]}"; 			
+					nb_commandes=$((nb_commandes + 1));
+				fi
+				i=$((i + 1));
+			done			
+			IFS=${OLDIFS};
 			
-			fi		
 
-			echo "${commande}" > ${FIC_TMP};
-			cat ${FIC_TMP};
+			if [ ${nb_commandes} -eq 0 ]
+			then
+				echo "Pas de commande '"${action}"' réalisable sur la table '"${table}"'";
+			else
+				if [ ${nb_commandes} -lt 1 ]
+				then
+					echo "Plusieurs commandes possibles.";					
+				else
+					echo "Une seule commande";
+				fi
+				for i in ${!liste_commandes[*]} ;
+				do
+					echo "liste_commandes[$i] = ${liste_commandes[$i]}";
+				done				
+			fi
+
+			# echo "${commande}" > ${FIC_TMP};
+			# cat ${FIC_TMP};
 			#getNextParam "${commande}" 0;
 		fi
 	else
