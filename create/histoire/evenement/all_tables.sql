@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `Evenement`
 (
 	intro int(11),
 	description int(11) NOT NULL,
+	contrainte int(11),
 
 	PRIMARY KEY (intro, description),
 	FOREIGN KEY (contrainte) REFERENCES ElementContrainte(id_element)
